@@ -1,5 +1,4 @@
-module pay-center-api
-
+module github.com/bingodfok/pay-center-api
 go 1.21
 
 require (
