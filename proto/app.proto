@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package app;
+
+option go_package = "pay-center-api/proto/app";
+
+// 应用信息
+message App {
+  string app_id = 1;             // 应用ID
+  string app_name = 2;           // 应用名称
+  string app_secret = 3;         // 应用密钥
+  string description = 4;        // 应用描述
+  string status = 5;             // 应用状态
+  repeated string permissions = 6; // 权限列表
+  int64 quota_limit = 7;         // 配额限制
+  int64 quota_used = 8;          // 已使用配额
+  int64 created_at = 9;          // 创建时间
+  int64 updated_at = 10;         // 更新时间
+}
+
+// 创建应用请求
+message CreateAppRequest {
+  string app_name = 1;           // 应用名称
+  string description = 2;        // 应用描述
+  repeated string permissions = 3; // 权限列表
+  int64 quota_limit = 4;         // 配额限制
+}
+
+// 创建应用响应
+message CreateAppResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  App data = 3;                  // 应用数据
+}
+
+// 获取应用请求
+message GetAppRequest {
+  string app_id = 1;             // 应用ID
+}
+
+// 获取应用响应
+message GetAppResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  App data = 3;                  // 应用数据
+}
+
+// 更新应用请求
+message UpdateAppRequest {
+  string app_id = 1;             // 应用ID
+  string app_name = 2;           // 应用名称
+  string description = 3;        // 应用描述
+  repeated string permissions = 4; // 权限列表
+  int64 quota_limit = 5;         // 配额限制
+  string status = 6;             // 应用状态
+}
+
+// 更新应用响应
+message UpdateAppResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  App data = 3;                  // 应用数据
+}
+
+// 应用列表请求
+message ListAppsRequest {
+  int32 page = 1;                // 页码
+  int32 page_size = 2;           // 每页大小
+  string status = 3;             // 状态过滤
+}
+
+// 应用列表响应
+message ListAppsResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  repeated App data = 3;         // 应用列表
+  int32 total = 4;               // 总数
+}

@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package payment;
+
+option go_package = "pay-center-api/proto/payment";
+
+// 支付请求
+message PaymentRequest {
+  string order_id = 1;           // 订单ID
+  string app_id = 2;             // 应用ID
+  string platform = 3;           // 支付平台 (wechat, alipay, apple)
+  int64 amount = 4;              // 支付金额(分)
+  string currency = 5;           // 货币类型
+  string subject = 6;            // 订单标题
+  string body = 7;               // 订单描述
+  string notify_url = 8;         // 回调地址
+  string return_url = 9;         // 返回地址
+  map<string, string> extra = 10; // 扩展参数
+}
+
+// 支付响应
+message PaymentResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  PaymentData data = 3;          // 支付数据
+}
+
+// 支付数据
+message PaymentData {
+  string payment_id = 1;         // 支付ID
+  string order_id = 2;           // 订单ID
+  string platform = 3;           // 支付平台
+  string payment_url = 4;        // 支付链接
+  string qr_code = 5;            // 二维码
+  map<string, string> params = 6; // 支付参数
+}
+
+// 支付查询请求
+message PaymentQueryRequest {
+  string payment_id = 1;         // 支付ID
+  string order_id = 2;           // 订单ID
+}
+
+// 支付查询响应
+message PaymentQueryResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  PaymentStatus data = 3;        // 支付状态
+}
+
+// 支付状态
+message PaymentStatus {
+  string payment_id = 1;         // 支付ID
+  string order_id = 2;           // 订单ID
+  string status = 3;             // 支付状态
+  int64 amount = 4;              // 支付金额
+  string platform = 5;           // 支付平台
+  int64 created_at = 6;          // 创建时间
+  int64 updated_at = 7;          // 更新时间
+  int64 paid_at = 8;             // 支付时间
+}
+
+// 退款请求
+message RefundRequest {
+  string payment_id = 1;         // 支付ID
+  string order_id = 2;           // 订单ID
+  int64 refund_amount = 3;       // 退款金额(分)
+  string refund_reason = 4;      // 退款原因
+}
+
+// 退款响应
+message RefundResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  RefundData data = 3;           // 退款数据
+}
+
+// 退款数据
+message RefundData {
+  string refund_id = 1;          // 退款ID
+  string payment_id = 2;         // 支付ID
+  string order_id = 3;           // 订单ID
+  int64 refund_amount = 4;       // 退款金额
+  string status = 5;             // 退款状态
+  int64 created_at = 6;          // 创建时间
+}

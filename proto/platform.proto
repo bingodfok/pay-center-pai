@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package platform;
+
+option go_package = "pay-center-api/proto/platform";
+
+// 支付平台信息
+message Platform {
+  string platform_id = 1;        // 平台ID
+  string platform_name = 2;      // 平台名称 (wechat, alipay, apple)
+  string display_name = 3;       // 显示名称
+  string status = 4;             // 平台状态
+  map<string, string> config = 5; // 平台配置
+  repeated PaymentMethod methods = 6; // 支付方式
+  int64 created_at = 7;          // 创建时间
+  int64 updated_at = 8;          // 更新时间
+}
+
+// 支付方式
+message PaymentMethod {
+  string method_id = 1;          // 方式ID
+  string method_name = 2;        // 方式名称
+  string display_name = 3;       // 显示名称
+  string status = 4;             // 状态
+  map<string, string> config = 5; // 配置参数
+}
+
+// 创建平台请求
+message CreatePlatformRequest {
+  string platform_name = 1;      // 平台名称
+  string display_name = 2;       // 显示名称
+  map<string, string> config = 3; // 平台配置
+  repeated PaymentMethod methods = 4; // 支付方式
+}
+
+// 创建平台响应
+message CreatePlatformResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  Platform data = 3;             // 平台数据
+}
+
+// 获取平台请求
+message GetPlatformRequest {
+  string platform_id = 1;        // 平台ID
+  string platform_name = 2;      // 平台名称
+}
+
+// 获取平台响应
+message GetPlatformResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  Platform data = 3;             // 平台数据
+}
+
+// 更新平台请求
+message UpdatePlatformRequest {
+  string platform_id = 1;        // 平台ID
+  string display_name = 2;       // 显示名称
+  string status = 3;             // 平台状态
+  map<string, string> config = 4; // 平台配置
+  repeated PaymentMethod methods = 5; // 支付方式
+}
+
+// 更新平台响应
+message UpdatePlatformResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  Platform data = 3;             // 平台数据
+}
+
+// 平台列表请求
+message ListPlatformsRequest {
+  int32 page = 1;                // 页码
+  int32 page_size = 2;           // 每页大小
+  string status = 3;             // 状态过滤
+}
+
+// 平台列表响应
+message ListPlatformsResponse {
+  int32 code = 1;                // 响应码
+  string message = 2;            // 响应消息
+  repeated Platform data = 3;    // 平台列表
+  int32 total = 4;               // 总数
+}
